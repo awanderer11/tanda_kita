@@ -1,4 +1,4 @@
-package com.example.tanda_kita
+package id.tanda_kita
 
 import io.flutter.embedding.android.FlutterActivity
 
