@@ -25,14 +25,27 @@ jobs:
       - name: Build APK
         run: flutter build apk --debug --no-tree-shake-icons
         
-      - name: Upload debug APK to Release
-        uses: softprops/action-gh-release@v1
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          TANDA_SECRET: ${{ secrets.TANDA_SECRET }}
         with:
-          files: build/app/outputs/flutter-apk/app-debug.apk
+          tag_name: ${{ github.ref_name }}
+          release_name: Debug APK ${{ github.ref_name }}
+          body: Debug build generated from ${{ github.ref_name }}
+          draft: false
+          prerelease: true
+
+      - name: Upload Debug APK
+        uses: actions/upload-release-asset@v1
+        env:
+          TANDA_SECRET: ${{ secrets.TANDA_SECRET }}
+        with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: build/app/outputs/flutter-apk/app-debug.apk
           asset_name: app-debug.apk
           asset_content_type: application/vnd.android.package-archive
-        env:
-          TANDA_SECRET: ${{ secrets.TANDA_SECRET }}
+
+        
          
