@@ -24,11 +24,11 @@ jobs:
         run: flutter pub get
 
       - name: Build APK
-        run: flutter build apk --release --no-tree-shake-icons
+        run: flutter build apk --debug --no-tree-shake-icons
         
       - name: Upload APK to Release
         uses: softprops/action-gh-release@v1
         with:
-          files: build/app/outputs/flutter-apk/app-release.apk
+          files: build/app/outputs/flutter-apk/app-debug.apk
         env:
           TANDA_SECRET: ${{ secrets.TANDA_SECRET }}
